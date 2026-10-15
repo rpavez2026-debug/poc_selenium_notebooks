@@ -1,0 +1,5 @@
+selenium>=4.27,<5
+pytest>=8.0
+pytest-html>=4.1
+notebook>=7.0
+ipykernel>=6.29
