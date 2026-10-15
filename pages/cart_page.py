@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from pages.base_page import BasePage
+from pages.base_page import BasePage, log
 
 
 class CartPage(BasePage):
@@ -26,5 +26,6 @@ class CartPage(BasePage):
     def checkout(self):
         from pages.checkout_pages import CheckoutInfoPage
 
+        log.info("Iniciando checkout")
         self.click(self.CHECKOUT_BUTTON)
         return CheckoutInfoPage(self.driver).wait_until_loaded()

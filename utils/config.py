@@ -1,6 +1,9 @@
-"""Configuración central del POC: URL, usuarios de prueba y tiempos de espera."""
+"""Configuración central del POC: ambiente, URL, usuarios de prueba y tiempos de espera."""
 import os
 
+# Ambiente donde corre la ejecución (DEV, TEST o PROD). saucedemo.com es el sitio público
+# en la web, así que para nosotros es PROD.
+AMBIENTE = os.getenv("AMBIENTE", "PROD").upper()
 BASE_URL = os.getenv("BASE_URL", "https://www.saucedemo.com/")
 DEFAULT_TIMEOUT = int(os.getenv("DEFAULT_TIMEOUT", "10"))
 

@@ -48,11 +48,31 @@ jupyter notebook notebooks/
 - `01_exploracion_login.ipynb`: casos positivos y negativos del login.
 - `02_flujo_compra_e2e.ipynb`: compra completa validando montos.
 
+Cada notebook tiene **una sola celda de código**. Al ejecutarla, debajo aparece el log de lo que
+va haciendo, con fecha `dd-mm-aaaa`, hora y ambiente:
+
+```
+14-10-2026 23:55:48 | PROD | INFO    | Agregando al carrito: Sauce Labs Backpack
+14-10-2026 23:55:49 | PROD | INFO    | [OK] Montos del resumen correctos
+```
+
+El log también se guarda en `reports/logs/` y las capturas en `reports/evidencias/`.
+
+## Ambientes
+
+La variable `AMBIENTE` (`DEV`, `TEST` o `PROD`) indica dónde corre la ejecución y aparece en el
+log y en el reporte HTML. Por defecto es `PROD`, porque saucedemo.com es el sitio público.
+Para apuntar a otro ambiente:
+
+```powershell
+$env:AMBIENTE="TEST"; $env:BASE_URL="https://url-de-test/"; pytest
+```
+
 ## Estructura
 
 ```
 pages/      Page Objects (una clase por pantalla, esperas explícitas en BasePage)
 tests/      Tests pytest + conftest (fixtures del driver y capturas en fallos)
-notebooks/  Exploración interactiva reutilizando los mismos Page Objects
-utils/      Configuración (URL, usuarios) y creación del driver de Chrome
+notebooks/  Ejecuciones de una sola celda con log por ambiente, reutilizando los Page Objects
+utils/      Configuración (ambiente, URL, usuarios), driver de Chrome, log y evidencias
 ```

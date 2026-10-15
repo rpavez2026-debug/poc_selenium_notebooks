@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 
-from pages.base_page import BasePage
+from pages.base_page import BasePage, log
 from utils.config import PASSWORD
 
 
@@ -17,6 +17,7 @@ class LoginPage(BasePage):
 
     def login(self, username: str, password: str):
         """Llena el formulario y envía. No asume que el login sea exitoso."""
+        log.info("Login con usuario '%s'%s", username, "" if password else " (sin password)")
         self.type(self.USERNAME_INPUT, username)
         self.type(self.PASSWORD_INPUT, password)
         self.click(self.LOGIN_BUTTON)

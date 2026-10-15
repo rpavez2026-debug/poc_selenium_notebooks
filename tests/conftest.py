@@ -2,12 +2,19 @@ import base64
 from pathlib import Path
 
 import pytest
+from pytest_metadata.plugin import metadata_key
 
 from pages import LoginPage
-from utils.config import USERS
+from utils.config import AMBIENTE, BASE_URL, USERS
 from utils.driver_factory import create_driver
 
 SCREENSHOTS_DIR = Path(__file__).resolve().parent.parent / "reports" / "screenshots"
+
+
+def pytest_configure(config):
+    # Ambiente y sitio visibles en la sección "Environment" del reporte HTML
+    config.stash[metadata_key]["Ambiente"] = AMBIENTE
+    config.stash[metadata_key]["Sitio"] = BASE_URL
 
 
 def pytest_addoption(parser):

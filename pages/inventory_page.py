@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 
-from pages.base_page import BasePage
+from pages.base_page import BasePage, log
 
 
 class InventoryPage(BasePage):
@@ -36,6 +36,7 @@ class InventoryPage(BasePage):
         return [self._money(e.text) for e in self.find_all(self.ITEM_PRICES)]
 
     def sort_by(self, value: str) -> "InventoryPage":
+        log.info("Ordenando productos por '%s'", value)
         Select(self.find(self.SORT_SELECT)).select_by_value(value)
         return self
 
@@ -49,11 +50,15 @@ class InventoryPage(BasePage):
 
     def add_to_cart(self, *product_names: str) -> "InventoryPage":
         for name in product_names:
+            log.info("Agregando al carrito: %s", name)
             self.click(self._product_button(name))
         return self
 
     def remove_from_cart(self, *product_names: str) -> "InventoryPage":
-        return self.add_to_cart(*product_names)  # el mismo botón alterna Add/Remove
+        for name in product_names:
+            log.info("Quitando del carrito: %s", name)
+            self.click(self._product_button(name))  # el mismo botón alterna Add/Remove
+        return self
 
     def button_text(self, product_name: str) -> str:
         return self.text_of(self._product_button(product_name))
@@ -66,12 +71,14 @@ class InventoryPage(BasePage):
     def go_to_cart(self):
         from pages.cart_page import CartPage
 
+        log.info("Abriendo el carrito")
         self.click(self.CART_LINK)
         return CartPage(self.driver).wait_until_loaded()
 
     def logout(self):
         from pages.login_page import LoginPage
 
+        log.info("Cerrando sesión")
         self.click(self.MENU_BUTTON)
         self.click(self.LOGOUT_LINK)
         return LoginPage(self.driver)

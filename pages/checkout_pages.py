@@ -2,7 +2,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from pages.base_page import BasePage
+from pages.base_page import BasePage, log
 
 
 class CheckoutInfoPage(BasePage):
@@ -18,6 +18,7 @@ class CheckoutInfoPage(BasePage):
         return self
 
     def fill(self, first_name: str, last_name: str, postal_code: str) -> "CheckoutInfoPage":
+        log.info("Datos del comprador: nombre='%s' apellido='%s' código postal='%s'", first_name, last_name, postal_code)
         self.type(self.FIRST_NAME, first_name)
         self.type(self.LAST_NAME, last_name)
         self.type(self.POSTAL_CODE, postal_code)
@@ -61,6 +62,7 @@ class CheckoutOverviewPage(BasePage):
         return self._money(self.text_of(self.TOTAL))
 
     def finish(self):
+        log.info("Finalizando la compra")
         self.click(self.FINISH_BUTTON)
         return CheckoutCompletePage(self.driver).wait_until_loaded()
 

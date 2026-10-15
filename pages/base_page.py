@@ -5,6 +5,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from utils.config import BASE_URL, DEFAULT_TIMEOUT
+from utils.logger import get_logger
+
+log = get_logger()
 
 
 class BasePage:
@@ -14,6 +17,7 @@ class BasePage:
         self.wait = WebDriverWait(driver, timeout)
 
     def open(self, path: str = ""):
+        log.info("Navegando a %s", BASE_URL + path)
         self.driver.get(BASE_URL + path)
 
     def find(self, locator):
