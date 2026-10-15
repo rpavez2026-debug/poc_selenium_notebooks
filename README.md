@@ -56,11 +56,21 @@ va haciendo, con fecha `dd-mm-aaaa`, hora y ambiente:
 14-10-2026 23:55:49 | PROD | INFO    | [OK] Montos del resumen correctos
 ```
 
-El log también se guarda en `reports/logs/` y las capturas en `reports/evidencias/`.
+El log también se guarda en un archivo por ambiente y por día, y las capturas en `reports/evidencias/`:
+
+```
+reports/logs/
+└── PROD/              (o TEST / DEV)
+    └── 2026/10/15/
+        ├── 01_exploracion_login.log
+        └── 02_flujo_compra_e2e.log
+```
+
+Las ejecuciones del mismo día se agregan al final del mismo archivo, cada una entre sus líneas `INICIO` y `FIN`.
 
 ## Ambientes
 
-La variable `AMBIENTE` (`DEV`, `TEST` o `PROD`) indica dónde corre la ejecución y aparece en el
+La variable `AMBIENTE` (`PROD`, `TEST` o `DEV`; cualquier otro valor da error) indica dónde corre la ejecución y aparece en el
 log y en el reporte HTML. Por defecto es `PROD`, porque saucedemo.com es el sitio público.
 Para apuntar a otro ambiente:
 

@@ -3,7 +3,10 @@ import os
 
 # Ambiente donde corre la ejecución (DEV, TEST o PROD). saucedemo.com es el sitio público
 # en la web, así que para nosotros es PROD.
-AMBIENTE = os.getenv("AMBIENTE", "PROD").upper()
+AMBIENTES = ("PROD", "TEST", "DEV")
+AMBIENTE = os.getenv("AMBIENTE", "PROD").strip().upper()
+if AMBIENTE not in AMBIENTES:
+    raise ValueError(f"AMBIENTE='{AMBIENTE}' no es válido. Valores permitidos: {', '.join(AMBIENTES)}")
 BASE_URL = os.getenv("BASE_URL", "https://www.saucedemo.com/")
 DEFAULT_TIMEOUT = int(os.getenv("DEFAULT_TIMEOUT", "10"))
 
