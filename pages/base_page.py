@@ -1,5 +1,5 @@
 """Clase base de los Page Objects: esperas explícitas y acciones comunes."""
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -37,6 +37,20 @@ class BasePage:
 
     def text_of(self, locator) -> str:
         return self.find(locator).text
+
+    def texts_of(self, locator, attempts: int = 3) -> list[str]:
+        """Texto de todos los elementos, sin esperar (la lista puede estar vacía).
+
+        Si la página vuelve a dibujar la lista mientras se lee, los elementos quedan obsoletos
+        (StaleElementReferenceException): se buscan de nuevo hasta `attempts` veces.
+        """
+        for attempt in range(1, attempts + 1):
+            try:
+                return [e.text for e in self.driver.find_elements(*locator)]
+            except StaleElementReferenceException:
+                if attempt == attempts:
+                    raise
+                log.info("Elementos obsoletos en %s, reintentando (%d/%d)", locator, attempt, attempts)
 
     def is_visible(self, locator, timeout: float = 2) -> bool:
         try:

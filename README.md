@@ -46,7 +46,9 @@ jupyter notebook notebooks/
 ```
 
 - `01_exploracion_login.ipynb`: casos positivos y negativos del login.
-- `02_flujo_compra_e2e.ipynb`: compra completa validando montos.
+- `02_login_con_falla.ipynb`: login con `locked_out_user`; termina en `[FALLO]` porque saucedemo bloquea a ese usuario.
+- `03_flujo_compra_e2e.ipynb`: compra completa validando montos.
+- `04_flujo_problem_user.ipynb`: catálogo, carrito y checkout con `problem_user`; deja en `[FALLO]` sus bugs (imágenes, orden, carrito, formulario).
 
 Cada notebook tiene **una sola celda de código**. Al ejecutarla, debajo aparece el log de lo que
 va haciendo, con fecha `dd-mm-aaaa`, hora y ambiente:
@@ -63,7 +65,9 @@ reports/logs/
 └── PROD/              (o TEST / DEV)
     └── 2026/10/15/
         ├── 01_exploracion_login.log
-        └── 02_flujo_compra_e2e.log
+        ├── 02_login_con_falla.log
+        ├── 03_flujo_compra_e2e.log
+        └── 04_flujo_problem_user.log
 ```
 
 Las ejecuciones del mismo día se agregan al final del mismo archivo, cada una entre sus líneas `INICIO` y `FIN`.

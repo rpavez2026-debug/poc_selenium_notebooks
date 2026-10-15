@@ -17,11 +17,11 @@ class CartPage(BasePage):
         return self
 
     def item_names(self) -> list[str]:
-        # find_elements (sin espera) porque el carrito puede estar vacío
-        return [e.text for e in self.driver.find_elements(*self.ITEM_NAMES)]
+        # texts_of no espera (el carrito puede estar vacío) y reintenta si la lista se vuelve a dibujar
+        return self.texts_of(self.ITEM_NAMES)
 
     def item_prices(self) -> list[float]:
-        return [self._money(e.text) for e in self.driver.find_elements(*self.ITEM_PRICES)]
+        return [self._money(text) for text in self.texts_of(self.ITEM_PRICES)]
 
     def checkout(self):
         from pages.checkout_pages import CheckoutInfoPage

@@ -29,6 +29,10 @@ class CheckoutInfoPage(BasePage):
         self.fill(first_name, last_name, postal_code)
         return CheckoutOverviewPage(self.driver).wait_until_loaded()
 
+    def field_values(self) -> tuple[str, str, str]:
+        """Lo que quedó escrito en nombre, apellido y código postal."""
+        return tuple(self.find(loc).get_attribute("value") for loc in (self.FIRST_NAME, self.LAST_NAME, self.POSTAL_CODE))
+
     def error_message(self) -> str:
         return self.text_of(self.ERROR)
 

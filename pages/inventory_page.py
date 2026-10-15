@@ -9,6 +9,7 @@ class InventoryPage(BasePage):
     TITLE = (By.CLASS_NAME, "title")
     ITEM_NAMES = (By.CLASS_NAME, "inventory_item_name")
     ITEM_PRICES = (By.CLASS_NAME, "inventory_item_price")
+    ITEM_IMAGES = (By.CSS_SELECTOR, "img.inventory_item_img")
     SORT_SELECT = (By.CLASS_NAME, "product_sort_container")
     CART_BADGE = (By.CLASS_NAME, "shopping_cart_badge")
     CART_LINK = (By.CLASS_NAME, "shopping_cart_link")
@@ -34,6 +35,10 @@ class InventoryPage(BasePage):
 
     def product_prices(self) -> list[float]:
         return [self._money(e.text) for e in self.find_all(self.ITEM_PRICES)]
+
+    def product_images(self) -> dict[str, str]:
+        """Imagen (src) de cada producto; el alt de la imagen es el nombre del producto."""
+        return {e.get_attribute("alt"): e.get_attribute("src") for e in self.find_all(self.ITEM_IMAGES)}
 
     def sort_by(self, value: str) -> "InventoryPage":
         log.info("Ordenando productos por '%s'", value)
